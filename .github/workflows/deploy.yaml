@@ -15,26 +15,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-            python-version: '3.11'
+          python-version: '3.11'
+
       - name: Install Snowflake CLI
         run: pip install snowflake-cli
-     
+
       - name: Configure Snowflake
-        env: 
+        env:
           SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SF_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SF_PASSWORD: ${{ SECRETS.SNOWFLKE_PASSWORD }}
-        run:
+          SF_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
           mkdir -p ~/.snowflake
-          cat > ~/.snowflake/config.toml <<'EOT'
-          defaultconnectionname ="default" 
+          cat > ~/.snowflake/config.toml <<EOT
+          default_connection_name = "default"
+
+          [connections.default]
           account = "$SF_ACCOUNT"
           user = "$SF_USER"
           password = "$SF_PASSWORD"
           warehouse = "COMPUTE_WH"
           database = "SNOWFLAKE_LEARNING_DB"
           schema = "PUBLIC"
-          chmod 600 ~/.snowflake/config.toml 
+          EOT
+          chmod 600 ~/.snowflake/config.toml
 
       - name: Run SQL script
         run: snow sql -c default -f sql/create_tables.sql
