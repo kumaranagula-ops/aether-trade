@@ -12,10 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Snowflake CLI
-        uses: snowflakedb/snowflake-cli-action@v1.0.0
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-            accoun: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+            python-version: '3.11'
+      - name: Install Snowflake CLI
+        run: pip install snowflake-cli
+  
+      - name: Configure Snowflake
+        run: |
+         mkdir -p ~/.snowflake
+         cat > ~/.snowflake/config.toml << 'EOF'
+          accoun: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
             user: "${{ secrets.SNOWFLAKE_USER }}"
             password: "${{ secrets.SNOWFLAKE_PASSWORD }}"
             warehouse: COMPUTE_WH
