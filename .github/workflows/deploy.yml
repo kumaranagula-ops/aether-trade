@@ -18,18 +18,18 @@ jobs:
             python-version: '3.11'
       - name: Install Snowflake CLI
         run: pip install snowflake-cli
-  
+     
       - name: Configure Snowflake
         run: |
-         mkdir -p ~/.snowflake
-         umask 077
-         cat > ~/.snowflake/config.toml << 'EOF'
-          accoun: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-            user: "${{ secrets.SNOWFLAKE_USER }}"
-            password: "${{ secrets.SNOWFLAKE_PASSWORD }}"
-            warehouse: COMPUTE_WH
-            database: SNOWFLAKE_LEARNING_DB 
-            schema: PUBLIC
+        umask 077
+          mkdir -p ~/.snowflake
+          echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" > ~/.snowflake/config.toml
+          echo "user = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snowflake/config.toml
+          echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snowflake/config.toml
+          echo "warehouse = COMPUTE_WH" >> ~/.snowflake/config.toml
+          echo "database = SNOWFLAKE_LEARNING_DB" >> ~/.snowflake/config.toml
+          echo "schema = PUBLIC" >> ~/.snowflake/config.toml
+          chmod 600 ~/.snowflake/config.toml 
 
       - name: Run SQL script
         run: snow sql -c default -f sql/create_tables.sql
