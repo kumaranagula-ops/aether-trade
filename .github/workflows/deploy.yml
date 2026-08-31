@@ -24,8 +24,7 @@ jobs:
           SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SF_USER: ${{ secrets.SNOWFLAKE_USER }}
           SF_PASSWORD: ${{ SECRETS.SNOWFLKE_PASSWORD }}
-      
-      - run:
+        run:
           mkdir -p ~/.snowflake
           cat > ~/.snowflake/config.toml <<'EOT'
           defaultconnectionname ="default" 
