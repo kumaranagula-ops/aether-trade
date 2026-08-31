@@ -1,0 +1,26 @@
+name: Deploy to Snowflake
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v1.0.0
+        with:
+          default-config: | account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+            user = "${{ secrets.SNOWFLAKE_USER }}"
+            password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+            warehouse = COMPUTE_WH
+            database = MY_DB
+            schema = MY_SCHEMA
+
+      - name: Run SQL script
+        run: snow sql -c default -f sql/create_tables.sql
