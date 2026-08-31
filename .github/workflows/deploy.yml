@@ -20,15 +20,20 @@ jobs:
         run: pip install snowflake-cli
      
       - name: Configure Snowflake
-        run: |
-          umask 077
+        env: |
+          SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SF_USER: {{ secrets.SNOWFLAKE_USER }}
+          SF_PASSWORD: {{ SECRETS.SNOWFLKE_PASSWORD }}
+      
+      -run:
           mkdir -p ~/.snowflake
-          echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" > ~/.snowflake/config.toml
-          echo "user = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snowflake/config.toml
-          echo "password = \"${{ secrets.SNOWFLAKE_PASSWORD }}\"" >> ~/.snowflake/config.toml
-          echo "warehouse = COMPUTE_WH" >> ~/.snowflake/config.toml
-          echo "database = SNOWFLAKE_LEARNING_DB" >> ~/.snowflake/config.toml
-          echo "schema = PUBLIC" >> ~/.snowflake/config.toml
+          cat > ~/.snowflake/config.toml <<'EOT'
+          defaultconnectionname ="default" account = "$SF_ACCOUNT"
+          user = "$SF_USER"
+          password = "$SF_PASSWORD"
+          warehouse = "COMPUTE_WH"
+          database = "SNOWFLAKE_LEARNING_DB"
+          schema = "PUBLIC"
           chmod 600 ~/.snowflake/config.toml 
 
       - name: Run SQL script
