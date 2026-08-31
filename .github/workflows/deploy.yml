@@ -32,8 +32,11 @@ jobs:
 
           cat > ~/.snowflake/config.toml <<EOT
           default_connection_name = "default"
+          EOT
+          chmod 600 ~/.snowflake/config.toml
 
-          [connections.default]
+          cat > ~/.snowflake/connections.toml <<EOT
+          [default]
           account = "$SF_ACCOUNT"
           user = "$SF_USER"
           authenticator = "SNOWFLAKE_JWT"
@@ -42,7 +45,7 @@ jobs:
           database = "SNOWFLAKE_LEARNING_DB"
           schema = "PUBLIC"
           EOT
-          chmod 600 ~/.snowflake/config.toml
+          chmod 600 ~/.snowflake/connections.toml
 
       - name: Run SQL script
         run: snow sql -c default -f sql/create_tables.sql
