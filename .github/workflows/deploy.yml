@@ -22,8 +22,8 @@ jobs:
       - name: Configure Snowflake
         env: 
           SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SF_USER: {{ secrets.SNOWFLAKE_USER }}
-          SF_PASSWORD: {{ SECRETS.SNOWFLKE_PASSWORD }}
+          SF_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SF_PASSWORD: ${{ SECRETS.SNOWFLKE_PASSWORD }}
       
       - run:
           mkdir -p ~/.snowflake
