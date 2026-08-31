@@ -22,6 +22,7 @@ jobs:
       - name: Configure Snowflake
         run: |
          mkdir -p ~/.snowflake
+         umask 077
          cat > ~/.snowflake/config.toml << 'EOF'
           accoun: "${{ secrets.SNOWFLAKE_ACCOUNT }}"
             user: "${{ secrets.SNOWFLAKE_USER }}"
