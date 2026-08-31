@@ -20,15 +20,16 @@ jobs:
         run: pip install snowflake-cli
      
       - name: Configure Snowflake
-        env: |
+        env: 
           SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SF_USER: {{ secrets.SNOWFLAKE_USER }}
           SF_PASSWORD: {{ SECRETS.SNOWFLKE_PASSWORD }}
       
-      -run:
+      - run:
           mkdir -p ~/.snowflake
           cat > ~/.snowflake/config.toml <<'EOT'
-          defaultconnectionname ="default" account = "$SF_ACCOUNT"
+          defaultconnectionname ="default" 
+          account = "$SF_ACCOUNT"
           user = "$SF_USER"
           password = "$SF_PASSWORD"
           warehouse = "COMPUTE_WH"
