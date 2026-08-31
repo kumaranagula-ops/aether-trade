@@ -21,7 +21,7 @@ jobs:
      
       - name: Configure Snowflake
         run: |
-        umask 077
+          umask 077
           mkdir -p ~/.snowflake
           echo "account = \"${{ secrets.SNOWFLAKE_ACCOUNT }}\"" > ~/.snowflake/config.toml
           echo "user = \"${{ secrets.SNOWFLAKE_USER }}\"" >> ~/.snowflake/config.toml
